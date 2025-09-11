@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "807145722118",
+    "project_id": "dental-ai-app-b1a8d",
+    "storage_bucket": "dental-ai-app-b1a8d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807145722118:android:37e7547073499cd044ce87",
+        "android_client_info": {
+          "package_name": "com.dental.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807145722118-re6n9dq7cgol5jbvs0r4nlqdhpgf8dpd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_yD8UiUmtMX7ZDFqTiHHa8A73g3i0rdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807145722118-re6n9dq7cgol5jbvs0r4nlqdhpgf8dpd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

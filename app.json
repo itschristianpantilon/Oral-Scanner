@@ -16,12 +16,20 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.yourname.capstonediseasedetection",
+      "googleServicesFile": "./app/google-services.json"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyA_yD8UiUmtMX7ZDFqTiHHa8A73g3i0rdg",
+          "authDomain": "dental-ai-app-b1a8d.firebaseapp.com"
+        }
+      }
     },
     "plugins": [
       "expo-router",
@@ -33,7 +41,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
