@@ -36,7 +36,7 @@ const main = () => {
 
           <View className="items-center my-5 w-full"> 
             <Text className="text-2xl font-pmedium text-gray-500 mb-1">Let's Get Started</Text>
-            <Text className='w-[75%] text-center font-pregular text-xs text-black/60'>Login to enjoy the feature we've provided, and stay healthy!</Text>
+            <Text className='w-[75%] text-center font-pregular text-xs text-black/60'>Login to enjoy the feature we've provided, and stay healthyy!</Text>
           </View>
 
           <View className="w-full justify-center items-center my-3">
