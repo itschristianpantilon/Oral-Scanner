@@ -13,6 +13,7 @@ import ellipse from '../assets/ellipse.png';
 import home from '../assets/icons/home.png';
 import profile from '../assets/icons/profile.png';
 import userx from '../assets/icons/userx.png';
+import appLogo from '../assets/tooth_logo.png';
 
 export default {
     logo,
@@ -29,5 +30,6 @@ export default {
     ellipse,
     home,
     profile,
-    userx
+    userx,
+    appLogo
 };

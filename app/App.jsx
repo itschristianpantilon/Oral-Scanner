@@ -32,7 +32,7 @@ export default function App() {
                     <View className="w-full my-5" >
                         <CustomButton 
                             title="Get Started"
-                            handlePress={() => router.push('./main')}
+                            handlePress={() => router.push('main')}
                         />
                     </View>
                 </View>

@@ -8,7 +8,7 @@ const Header = ({ title, onPress }) => {
   return (
     <View className="bg-white w-full min-h-[50px] flex-row items-center justify-between py-2 relative">
 
-      <TouchableOpacity onPress={()=> router.canGoBack()} className="px-3">
+      <TouchableOpacity onPress={()=> router.back()} className="px-3">
         <Image 
           source={icons.back}
           className="w-8 h-8"
