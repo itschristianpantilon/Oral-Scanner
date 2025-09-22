@@ -1,15 +1,5 @@
-import { useEffect } from 'react';
-import { Redirect, useRouter } from 'expo-router';
-import { View, ActivityIndicator } from 'react-native';
+import { Redirect } from "expo-router";
 
-
-const Index = () => {
-
-  return (
-    <View >
-      <Redirect href='App' />
-    </View>
-  );
-};
-
-export default Index;
+export default function getStarted() {
+  return <Redirect href="main" />;
+}

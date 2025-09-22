@@ -7,29 +7,29 @@
     "icon": "./assets/tooth_logo.png",
     "scheme": "capstoneaisystem",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.crstiann.oralscanner"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/tooth_logo.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.yourname.capstonediseasedetection",
-      "googleServicesFile": "./app/google-services.json"
+      "edgeToEdgeEnabled": false,
+      "package": "com.crstiann.oralscanner",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_IMAGES"
+      ]
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/tooth_logo.png",
-      "config": {
-        "firebase": {
-          "apiKey": "AIzaSyA_yD8UiUmtMX7ZDFqTiHHa8A73g3i0rdg",
-          "authDomain": "dental-ai-app-b1a8d.firebaseapp.com"
-        }
-      }
+      "favicon": "./assets/tooth_logo.png"
     },
     "plugins": [
       "expo-router",
@@ -42,7 +42,29 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-web-browser"
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera for dental image capture.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you select dental images for analysis.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera for dental image capture."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photo library to select dental images.",
+          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save dental analysis results to your photo library.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

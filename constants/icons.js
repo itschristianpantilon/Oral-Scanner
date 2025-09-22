@@ -14,6 +14,8 @@ import home from '../assets/icons/home.png';
 import profile from '../assets/icons/profile.png';
 import userx from '../assets/icons/userx.png';
 import appLogo from '../assets/tooth_logo.png';
+import flashlightWhite from '../assets/flashlightWhite.png';
+
 
 export default {
     logo,
@@ -31,5 +33,7 @@ export default {
     home,
     profile,
     userx,
-    appLogo
+    appLogo,
+    flashlightWhite,
+    
 };

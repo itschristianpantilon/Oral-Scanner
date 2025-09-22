@@ -1,9 +1,10 @@
-import { View, Text, StatusBar, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '../components/CustomButton';
 import icons from '../constants/icons';
 import { router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
 
 const main = () => {
@@ -12,10 +13,10 @@ const main = () => {
   return (
     <SafeAreaView className='bg-white flex-1'>
       <View className="w-full h-full justify-start ">
-        <View className='min-w-fit items-center justify-start -top-10'>
+        <View className='items-center justify-start -top-10'>
           <Image 
             source={icons.ellipse}
-            className="w-full -top-10 absolute"
+            className="w-full -top-10 -left-40 absolute"
             resizeMode='contain'
           />
         </View>
