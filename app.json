@@ -7,7 +7,7 @@
     "icon": "./assets/tooth_logo.png",
     "scheme": "capstoneaisystem",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.crstiann.oralscanner"
@@ -64,7 +64,8 @@
           "savePhotosPermission": "Allow $(PRODUCT_NAME) to save dental analysis results to your photo library.",
           "isAccessMediaLocationEnabled": true
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true

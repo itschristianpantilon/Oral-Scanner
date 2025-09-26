@@ -7,6 +7,7 @@ import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
 
+
 const main = () => {
 
 
@@ -53,7 +54,7 @@ const main = () => {
 
             <CustomButton 
               title="Continue"
-              handlePress={() => router.push('home')}
+              handlePress={() => router.push('/home')}
               containerStyles='w-32 rounded-full'
             />
           </View>

@@ -31,10 +31,9 @@ const RootLayout = () => {
   return (
      <Stack>
         <Stack.Screen name='getStarted' options={{ headerShown: false }} />
-        <Stack.Screen name='App' options={{ headerShown: false, animation: "slide_from_left" }} />
+        <Stack.Screen name='index' options={{ headerShown: false, animation: "slide_from_left" }} />
         <Stack.Screen name='main' options={{ headerShown: false, animation: "slide_from_right" }} />   
         <Stack.Screen name='home' options={{ headerShown: false,  animation: "simple_push" }} />  
-
       </Stack>
   )
 };
