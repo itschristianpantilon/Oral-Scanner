@@ -206,18 +206,79 @@ const takePicture = async () => {
         ) : (
           // 📊 Results & Upload
           <ScrollView className="w-full px-4" contentContainerStyle={{ alignItems: "center" }}>
+
+
+
             {/* Original Image */}
-            {imageUri && (
-              <View className="relative items-center justify-center">
-                <Image source={{ uri: imageUri }} className="w-72 h-72 rounded-xl" resizeMode="cover" />
-                {isLoading && (
-                  <View className="absolute w-72 h-72 bg-black/60 items-center justify-center rounded-xl">
-                    <ActivityIndicator size="large" color="#FFF" />
-                    <Text className="text-white mt-2 text-sm font-pmedium">Analyzing Image...</Text>
-                  </View>
+            <View className="">
+              <View>
+                {imageUri && (
+                  <>
+                    <Text className="font-psemibold text-lg py-2">Disease Detected</Text>
+                    <View className="relative items-center justify-center">
+                      <Image source={{ uri: imageUri }} className="w-52 h-52 rounded-md" resizeMode="cover" />
+                      {isLoading && (
+                        <View className="absolute w-52 h-52 bg-black/60 items-center justify-center rounded-md">
+                          <ActivityIndicator size="large" color="#FFF" />
+                          <Text className="text-white mt-2 text-sm font-pmedium">Scanning Image...</Text>
+                        </View>
+                      )}
+                    </View>
+                  </>
                 )}
               </View>
-            )}
+
+              <View className="flex-row items-center justify-center gap-2">
+                  <View className="">
+                        {/* Combined Overlay */}
+                    
+                      {overlayUri && (
+                        <>
+                          <Text className="mt-3 text-base font-semibold text-gray-700">
+                            Image with Detected Mask
+                          </Text> 
+                          <Image source={{ uri: overlayUri }} className="w-52 h-52 rounded-md mt-1" />
+                        </>
+                      )}
+                  </View>
+
+                  <View className="flex items-start justify-center">
+
+                    <View className="flex-row items-center justify-center mb-1">
+                      <View className="h-1.5 w-3 bg-[#0000ff] mr-1 rounded-full" />
+                      <Text className="text-xs font-pregular">Calculus</Text>
+                    </View>
+
+                    <View className="flex-row items-center justify-center mb-1">
+                      <View className="h-1.5 w-3 bg-[#00ff00] mr-1 rounded-full" />
+                      <Text className="text-xs font-pregular">Caries</Text>
+                    </View>
+
+                    <View className="flex-row items-center justify-center mb-1">
+                      <View className="h-1.5 w-3 bg-[#ff0000] mr-1 rounded-full" />
+                      <Text className="text-xs font-pregular">Gingivitis</Text>
+                    </View>
+
+                    <View className="flex-row items-center justify-center mb-1">
+                      <View className="h-1.5 w-3 bg-[#00ffff] mr-1 rounded-full" />
+                      <Text className="text-xs font-pregular">Hypodontia</Text>
+                    </View>
+
+                                        <View className="flex-row items-center justify-center mb-1">
+                      <View className="h-1.5 w-3 bg-[#ff00ff] mr-1 rounded-full" />
+                      <Text className="text-xs font-pregular">Tooth-Discoloration</Text>
+                    </View>
+
+                    <View className="flex-row items-center justify-center mb-1">
+                      <View className="h-1.5 w-3 bg-[#ffff00] mr-1 rounded-full" />
+                      <Text className="text-xs font-pregular">Mouth Ulcer</Text>
+                    </View>
+                    
+                  </View>
+
+              </View>
+
+            </View>
 
             {/* Upload / Camera Prompt */}
             {captureUploadBTN && (
@@ -246,20 +307,9 @@ const takePicture = async () => {
 
             {/* Prediction */}
             {prediction !== "" && (
-              <View className="items-center mt-6 w-full">
-                <Text className="text-lg font-semibold text-secondary">
-                  {prediction}
-                </Text>
+              <View className="items-center mt-4 w-full">
+                <Text className="text-lg font-semibold text-secondary capitalize">{prediction}</Text>
 
-                {/* Combined Overlay */}
-                {overlayUri && (
-                  <>
-                    <Text className="mt-3 text-base font-semibold text-gray-700">
-                      Detection Overlay
-                    </Text>
-                    <Image source={{ uri: overlayUri }} className="w-72 h-72 rounded-xl mt-2" />
-                  </>
-                )}
 
                 {/* Per-Class Overlays */}
                 {classMasks.length > 0 && (
