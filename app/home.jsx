@@ -56,55 +56,43 @@ const Home = () => {
     })();
   }, []);
 
-  const predictImage = async (uri) => {
-    setIsLoading(true);
-    const formData = new FormData();
-    formData.append("file", {
-      uri,
-      name: "image.jpg",
-      type: "image/jpeg",
+const predictImage = async (uri) => {
+  setIsLoading(true);
+  const formData = new FormData();
+  formData.append("file", {
+    uri,
+    name: "image.jpg",
+    type: "image/jpeg",
+  });
+
+  try {
+    const response = await fetch("http://192.168.18.5:5000/predict", {
+      method: "POST",
+      body: formData,
     });
 
-    try {
-      const response = await fetch("http://192.168.18.5:5000/predict", {
-        method: "POST",
-        body: formData,
-      });
+    const result = await response.json();
+    //console.log("🔍 API Result:", result);
 
-      const result = await response.json();
-      console.log("🔍 API Result:", result);
+    if (result.detections && result.detections.length > 0) {
+      const diseases = result.detections.map((d) => d.class);
+      setPrediction(`Detected classes: ${diseases.join(", ")}`);
 
-      if (result.detections && result.detections.length > 0) {
-        const diseases = result.detections.map(
-          (d) => `${d.class} (${(d.confidence * 100).toFixed(1)}%)`
-        );
-        setPrediction(`Detected: ${diseases.join(", ")}`);
-
-        // ✅ Combined overlay image
-        if (result.result_image_base64) {
-          setOverlayUri(`data:image/png;base64,${result.result_image_base64}`);
-        }
-
-        // ✅ Per-class overlays (from backend's per_class_overlays)
-        if (result.per_class_overlays) {
-          const overlays = result.per_class_overlays.map((d) => ({
-            class: d.class,
-            uri: `data:image/png;base64,${d.mask_base64}`,
-          }));
-          setClassMasks(overlays);
-        }
-      } else {
-        setPrediction("No disease detected.");
-        setOverlayUri(null);
-        setClassMasks([]);
+      if (result.result_image_base64) {
+        setOverlayUri(`data:image/png;base64,${result.result_image_base64}`);
       }
-    } catch (error) {
-      console.error("❌ Error uploading image:", error);
-      setPrediction("Error processing image.");
-    } finally {
-      setIsLoading(false);
+    } else {
+      setPrediction("No disease detected.");
+      setOverlayUri(null);
     }
-  };
+  } catch (error) {
+    console.error("❌ Error uploading image:", error);
+    setPrediction("Error processing image.");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const CaptureUploadNew = () => {
     setImageUri(null);
@@ -157,25 +145,25 @@ const takePicture = async () => {
         </TouchableOpacity>
         <View className="flex-row justify-center items-center absolute w-full h-full">
           <Image source={icons.logoOnly} className="w-10 h-10" resizeMode="contain" />
-          <Image source={icons.textOnly} className="w-20 h-10" resizeMode="contain" />
+          <Text className="text-secondary-100 font-psemibold text-md ml-1 mt-1">Scanner</Text>
         </View>
       </View>
 
       {/* Main Content */}
-      <View className="w-full items-center justify-center">
+      <View className="w-full flex-1 items-center justify-center">
         {isCameraActive ? (
           // 📸 Camera View
-          <View className="w-[90%] h-full rounded-xl items-center justify-evenly">
+          <View className="w-[90%] flex-1 rounded-xl items-center justify-evenly">
             <View className="items-center justify-center">
-              <View className="border-[2px] rounded-xl border-secondary p-3">
+              <View className="">
                 <CameraView
-                  className="w-72 h-72 rounded-xl"
+                  className="w-80 h-80 rounded-md"
                   facing={cameraType}
                   flash={flash}
                   ref={cameraRef}
                 />
               </View>
-              <Text className="text-justify text-sm font-plight text-gray-700 px-4 my-7">
+              <Text className="text-center text-sm font-plight text-gray-700 px-4 my-7">
                 Ensure the image is focused, close to the mouth, and not blurry. Keep the
                 camera about 5–10 cm from the teeth.
               </Text>
@@ -233,7 +221,7 @@ const takePicture = async () => {
 
             {/* Upload / Camera Prompt */}
             {captureUploadBTN && (
-              <View className="items-center justify-center h-full mt-6">
+              <View className="w-full min-h-full items-center justify-center">
                 <Image source={icons.imageOutline} className="w-40 h-40 mb-5" resizeMode="contain" />
                 <Text className="text-center text-base font-plight text-gray-700 px-6 mb-4">
                   Please upload or capture a clear image of your oral cavity to begin analysis.
@@ -303,15 +291,26 @@ const takePicture = async () => {
             )}
 
             {/* Reset Button */}
+            {/* captureUploadNew */}
             {captureUploadNew && (
-              <View className="flex-row w-full justify-end mt-4">
-                <TouchableOpacity
-                  onPress={CaptureUploadNew}
-                  className="bg-white border-[1px] border-secondary-100 p-3 rounded-full"
-                >
-                  <Image source={icons.camera} className="w-9 h-9" resizeMode="contain" />
-                </TouchableOpacity>
-              </View>
+                <View className="flex-row p-2 gap-2">
+                  <TouchableOpacity
+                    onPress={CaptureUploadNew}
+                    className="bg-white border-[2px] border-secondary-100 px-3 py-2 rounded-full flex-row items-center justify-center"
+                  >
+                    <Image source={icons.camera} className="w-7 h-7" resizeMode="contain" />
+                    <Text className="text-secondary-100 font-psemibold ml-2 text-xs">New</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={CaptureUploadNew}
+                    className="bg-white border-[2px] border-secondary-100 px-3 py-2 rounded-full flex-row items-center justify-center"
+                  >
+                    <Image source={icons.download} className="w-7 h-7" resizeMode="contain" />
+                    <Text className="text-secondary-100 font-psemibold ml-2 text-xs">Download</Text>
+                  </TouchableOpacity>
+
+                </View>
             )}
           </ScrollView>
         )}

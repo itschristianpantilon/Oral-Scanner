@@ -27,7 +27,7 @@ const main = () => {
           <View className="flex-1 items-center justify-center pt-32">
             <View className='w-full flex items-center justify-center'>
               <Image
-                source={icons.logo}
+                source={icons.logo2}
                 className='max-w-[250px] h-[200px]'
                 resizeMode='contain'
               />

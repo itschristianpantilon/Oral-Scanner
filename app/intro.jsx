@@ -15,7 +15,7 @@ import CustomButton from '../components/CustomButton';
 
 // }
 
-const index = () => {
+const intro = () => {
 
         return (
         <SafeAreaView className="bg-white h-full">
@@ -55,4 +55,4 @@ const index = () => {
     );
 }
 
-export default index;
+export default intro

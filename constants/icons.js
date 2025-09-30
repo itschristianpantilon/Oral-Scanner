@@ -15,7 +15,8 @@ import profile from '../assets/icons/profile.png';
 import userx from '../assets/icons/userx.png';
 import appLogo from '../assets/tooth_logo.png';
 import flashlightWhite from '../assets/flashlightWhite.png';
-
+import download from '../assets/download.png';
+import logo2 from '../assets/oralcarelogo2.png';
 
 export default {
     logo,
@@ -35,5 +36,7 @@ export default {
     userx,
     appLogo,
     flashlightWhite,
+    download,
+    logo2,
     
 };
