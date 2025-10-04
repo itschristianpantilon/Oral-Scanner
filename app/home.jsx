@@ -35,6 +35,11 @@ const Home = () => {
   const [flash, setFlash] = useState("off");
   const [cameraType, setCameraType] = useState("back");
 
+  const [prevention, setPrevention] = useState("");
+
+  const [detections, setDetections] = useState([]); 
+
+
   const toggleFlash = () => {
     if (cameraType === "front") {
       console.log("⚡ Flash not available on front camera");
@@ -72,7 +77,8 @@ const predictImage = async (uri) => {
     });
 
     const result = await response.json();
-    //console.log("🔍 API Result:", result);
+    // console.log("🔍 API Result:", result);
+
 
     if (result.detections && result.detections.length > 0) {
       const diseases = result.detections.map((d) => d.class);
@@ -81,9 +87,19 @@ const predictImage = async (uri) => {
       if (result.result_image_base64) {
         setOverlayUri(`data:image/png;base64,${result.result_image_base64}`);
       }
+
+      // ✅ New: treatment + recommendations + prevention
+      //if (result.treatment_plan) setTreatmentPlan(result.treatment_plan);
+      // if (result.health_tips) setHealthTips(result.recommendation);
+      // if (result.prevention) setPrevention(result.prevention);
+
+      setDetections(result.detections);
+
     } else {
       setPrediction("No disease detected.");
       setOverlayUri(null);
+      setTreatmentPlan("");
+      setHealthTips("");
     }
   } catch (error) {
     console.error("❌ Error uploading image:", error);
@@ -92,6 +108,7 @@ const predictImage = async (uri) => {
     setIsLoading(false);
   }
 };
+
 
 
   const CaptureUploadNew = () => {
@@ -241,40 +258,41 @@ const takePicture = async () => {
                         </>
                       )}
                   </View>
+                      {overlayUri && (
+                        <View className="flex items-start justify-center">
 
-                  <View className="flex items-start justify-center">
+                          <View className="flex-row items-center justify-center mb-1">
+                            <View className="h-1.5 w-3 bg-[#0000ff] mr-1 rounded-full" />
+                            <Text className="text-xs font-pregular">Calculus</Text>
+                          </View>
 
-                    <View className="flex-row items-center justify-center mb-1">
-                      <View className="h-1.5 w-3 bg-[#0000ff] mr-1 rounded-full" />
-                      <Text className="text-xs font-pregular">Calculus</Text>
-                    </View>
+                          <View className="flex-row items-center justify-center mb-1">
+                            <View className="h-1.5 w-3 bg-[#00ff00] mr-1 rounded-full" />
+                            <Text className="text-xs font-pregular">Caries</Text>
+                          </View>
 
-                    <View className="flex-row items-center justify-center mb-1">
-                      <View className="h-1.5 w-3 bg-[#00ff00] mr-1 rounded-full" />
-                      <Text className="text-xs font-pregular">Caries</Text>
-                    </View>
+                          <View className="flex-row items-center justify-center mb-1">
+                            <View className="h-1.5 w-3 bg-[#ff0000] mr-1 rounded-full" />
+                            <Text className="text-xs font-pregular">Gingivitis</Text>
+                          </View>
 
-                    <View className="flex-row items-center justify-center mb-1">
-                      <View className="h-1.5 w-3 bg-[#ff0000] mr-1 rounded-full" />
-                      <Text className="text-xs font-pregular">Gingivitis</Text>
-                    </View>
+                          <View className="flex-row items-center justify-center mb-1">
+                            <View className="h-1.5 w-3 bg-[#00ffff] mr-1 rounded-full" />
+                            <Text className="text-xs font-pregular">Hypodontia</Text>
+                          </View>
 
-                    <View className="flex-row items-center justify-center mb-1">
-                      <View className="h-1.5 w-3 bg-[#00ffff] mr-1 rounded-full" />
-                      <Text className="text-xs font-pregular">Hypodontia</Text>
-                    </View>
+                                              <View className="flex-row items-center justify-center mb-1">
+                            <View className="h-1.5 w-3 bg-[#ff00ff] mr-1 rounded-full" />
+                            <Text className="text-xs font-pregular">Tooth-Discoloration</Text>
+                          </View>
 
-                                        <View className="flex-row items-center justify-center mb-1">
-                      <View className="h-1.5 w-3 bg-[#ff00ff] mr-1 rounded-full" />
-                      <Text className="text-xs font-pregular">Tooth-Discoloration</Text>
-                    </View>
-
-                    <View className="flex-row items-center justify-center mb-1">
-                      <View className="h-1.5 w-3 bg-[#ffff00] mr-1 rounded-full" />
-                      <Text className="text-xs font-pregular">Mouth Ulcer</Text>
-                    </View>
-                    
-                  </View>
+                          <View className="flex-row items-center justify-center mb-1">
+                            <View className="h-1.5 w-3 bg-[#ffff00] mr-1 rounded-full" />
+                            <Text className="text-xs font-pregular">Mouth Ulcer</Text>
+                          </View>
+                          
+                        </View>
+                      )}
 
               </View>
 
@@ -328,22 +346,35 @@ const takePicture = async () => {
               </View>
             )}
 
-            {/* Treatment & Tips */}
-            {treatmentPlan !== "" && (
-              <View className="bg-gray-100/40 rounded-xl p-4 w-full mt-4">
-                <Text className="text-base font-semibold text-secondary mb-1">Treatment Plan:</Text>
-                <Text className="text-sm text-gray-700">{treatmentPlan}</Text>
-                <Text className="text-base font-semibold text-secondary mt-2 mb-1">
-                  Recommendations:
-                </Text>
-                <Text className="text-sm text-gray-700">{healthTips}</Text>
-              </View>
-            )}
+            
+
+{detections.length > 0 && (
+  <View className="bg-gray-100/40 rounded-xl p-4 w-full mt-4">
+    {detections.map((d, idx) => (
+      <View key={idx} className="mb-4">
+        <Text className="text-lg font-semibold text-secondary capitalize">Disease Name: {d.class}</Text>
+        
+        <Text className="text-base font-pmedium  mt-1 mb-1">Treatment:</Text>
+        <Text className="text-sm font-plight text-gray-700">{d.treatment}</Text>
+
+        <Text className="text-base font-pmedium  mt-1 mb-1">Recommendation:</Text>
+        <Text className="text-sm font-plight text-gray-700">{d.recommendation}</Text>
+
+        <Text className="text-base font-pmedium  mt-1 mb-1">Prevention:</Text>
+        <Text className="text-sm font-plight text-gray-700">{d.prevention}</Text>
+
+        <Text className="text-xs text-blue-600 mt-2">Source: {d.source}</Text>
+      </View>
+    ))}
+  </View>
+)}
+
+
 
             {/* Reset Button */}
             {/* captureUploadNew */}
             {captureUploadNew && (
-                <View className="flex-row p-2 gap-2">
+                <View className="flex-row p-2 gap-2 py-7">
                   <TouchableOpacity
                     onPress={CaptureUploadNew}
                     className="bg-white border-[2px] border-secondary-100 px-3 py-2 rounded-full flex-row items-center justify-center"
