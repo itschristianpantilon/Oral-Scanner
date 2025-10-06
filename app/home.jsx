@@ -16,6 +16,11 @@ import { router } from "expo-router";
 import Header from "../components/Header";
 import icons from "../constants/icons";
 
+import * as Print from "expo-print";
+import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system";
+import * as ImageManipulator from "expo-image-manipulator";
+
 const Home = () => {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [imageUri, setImageUri] = useState(null);
@@ -152,6 +157,78 @@ const takePicture = async () => {
 
   if (hasCameraPermission === null) return <Text>Requesting permission...</Text>;
   if (hasCameraPermission === false) return <Text>No access to camera</Text>;
+
+
+const compressImage = async (uri) => {
+  // Resize large images down to 600px width
+  const result = await ImageManipulator.manipulateAsync(
+    uri,
+    [{ resize: { width: 600 } }],
+    { compress: 0.6, format: ImageManipulator.SaveFormat.JPEG }
+  );
+  return result.uri;
+};
+
+const generatePDF = async (imageUri, overlayUri, detections) => {
+  try {
+    // Step 1: Compress both images
+    const compressedUpload = await compressImage(imageUri);
+    const compressedOverlay = await compressImage(overlayUri);
+
+    // Step 2: Convert to base64
+    const uploadedBase64 = await FileSystem.readAsStringAsync(compressedUpload, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    const overlayBase64 = await FileSystem.readAsStringAsync(compressedOverlay, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+
+    // Step 3: Build HTML
+    const detectionsHtml = detections
+      .map(
+        (d) => `
+          <div style="margin-bottom:16px;">
+            <h2 style="color:#36A2A4;">Disease Name: ${d.class}</h2>
+            <p><b>Treatment:</b> ${d.treatment || "N/A"}</p>
+            <p><b>Recommendation:</b> ${d.recommendation || "N/A"}</p>
+            <p><b>Prevention:</b> ${d.prevention || "N/A"}</p>
+            <p style="font-size:11px; color:#1e40af;"><i>Source: ${
+              d.source || "Wikipedia"
+            }</i></p>
+            <hr style="margin-top:10px;"/>
+          </div>`
+      )
+      .join("");
+
+    const html = `
+      <html>
+        <body style="font-family: Arial; padding:20px;">
+          <h1 style="text-align:center; color:#36A2A4;">Dental Disease Report</h1>
+
+          <h3>Uploaded Image</h3>
+          <img src="data:image/jpeg;base64,${uploadedBase64}" style="width:200px;height:200px;border-radius:8px;" />
+
+          <h3>Detected Mask</h3>
+          <img src="data:image/jpeg;base64,${overlayBase64}" style="width:200px;height:200px;border-radius:8px;" />
+
+          <h3>Detections</h3>
+          ${detectionsHtml || "<p>No disease detected</p>"}
+        </body>
+      </html>
+    `;
+
+    // Step 4: Print to PDF
+    const { uri } = await Print.printToFileAsync({ html });
+    if (await Sharing.isAvailableAsync()) {
+      await Sharing.shareAsync(uri);
+    } else {
+      alert(`PDF saved to: ${uri}`);
+    }
+  } catch (error) {
+    console.error("❌ PDF generation failed:", error);
+    alert("PDF generation failed — see console.");
+  }
+};
 
   return (
     <SafeAreaView className="bg-white items-center h-full w-full">
@@ -364,6 +441,15 @@ const takePicture = async () => {
         <Text className="text-sm font-plight text-gray-700">{d.prevention}</Text>
 
         <Text className="text-xs text-blue-600 mt-2">Source: {d.source}</Text>
+
+          {/* Disclaimer Note */}
+          <View className="mt-3 border-t border-gray-400 pt-3">
+            <Text className="text-xs font-pthin text-gray-500 italic">
+              ⚠️ Note: This AI-powered oral scanner system may not always be accurate. 
+              Always consult your licensed dentist for a professional diagnosis and treatment.
+            </Text>
+          </View>
+
       </View>
     ))}
   </View>
@@ -383,13 +469,15 @@ const takePicture = async () => {
                     <Text className="text-secondary-100 font-psemibold ml-2 text-xs">New</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    onPress={CaptureUploadNew}
-                    className="bg-white border-[2px] border-secondary-100 px-3 py-2 rounded-full flex-row items-center justify-center"
-                  >
-                    <Image source={icons.download} className="w-7 h-7" resizeMode="contain" />
-                    <Text className="text-secondary-100 font-psemibold ml-2 text-xs">Download</Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => generatePDF(imageUri, overlayUri, detections)}
+
+                      className="bg-white border-[2px] border-secondary-100 px-3 py-2 rounded-full flex-row items-center justify-center"
+                    >
+                      <Image source={icons.download} className="w-7 h-7" resizeMode="contain" />
+                      <Text className="text-secondary-100 font-psemibold ml-2 text-xs">Download</Text>
+                    </TouchableOpacity>
+
 
                 </View>
             )}
