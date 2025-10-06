@@ -1,0 +1,2 @@
+*.txt filter=lfs diff=lfs merge=lfs -text
+android/app/src/main/assets/models/model_base64.txt filter=lfs diff=lfs merge=lfs -text
