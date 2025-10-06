@@ -1,1 +1,0 @@
-export const MODEL_BASE64 = "./model_base64.txt";
