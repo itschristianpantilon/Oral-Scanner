@@ -430,6 +430,11 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
     {detections.map((d, idx) => (
       <View key={idx} className="mb-4">
         <Text className="text-lg font-semibold text-secondary capitalize">Disease Name: {d.class}</Text>
+
+                {/* 🔹 Confidence Level */}
+        <Text className="text-md font-pmedium text-gray-700 mt-1 mb-1">
+          Confidence Level: {(d.confidence * 100).toFixed(2)}%
+        </Text>
         
         <Text className="text-base font-pmedium  mt-1 mb-1">Treatment:</Text>
         <Text className="text-sm font-plight text-gray-700">{d.treatment}</Text>
