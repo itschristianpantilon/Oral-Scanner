@@ -277,7 +277,7 @@ const takePicture = async () => {
                           </View>
 
                           <View className="flex-row items-center justify-center mb-1">
-                            <View className="h-1.5 w-3 bg-[#00ffff] mr-1 rounded-full" />
+                            <View className="h-1.5 w-3 bg-[#ffff00] mr-1 rounded-full" />
                             <Text className="text-xs font-pregular">Hypodontia</Text>
                           </View>
 
@@ -287,7 +287,7 @@ const takePicture = async () => {
                           </View>
 
                           <View className="flex-row items-center justify-center mb-1">
-                            <View className="h-1.5 w-3 bg-[#ffff00] mr-1 rounded-full" />
+                            <View className="h-1.5 w-3 bg-[#00ffff] mr-1 rounded-full" />
                             <Text className="text-xs font-pregular">Mouth Ulcer</Text>
                           </View>
                           
