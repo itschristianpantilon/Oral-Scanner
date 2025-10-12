@@ -87,7 +87,7 @@ const predictImage = async (uri) => {
 
     if (result.detections && result.detections.length > 0) {
       const diseases = result.detections.map((d) => d.class);
-      setPrediction(`Detected classes: ${diseases.join(", ")}`);
+      setPrediction(`Detected Disease: ${diseases.join(", ")}`);
 
       if (result.result_image_base64) {
         setOverlayUri(`data:image/png;base64,${result.result_image_base64}`);
@@ -413,24 +413,12 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
 
             {/* Prediction */}
             {prediction !== "" && (
-              <View className="items-center mt-4 w-full">
-                <Text className="text-lg font-semibold text-secondary capitalize">{prediction}</Text>
+              <View className="items-center justify-center mt-4 w-full">
+                <Text className="text-xl font-semibold text-secondary capitalize">{prediction}</Text>
 
 
                 {/* Per-Class Overlays */}
-                {classMasks.length > 0 && (
-                  <>
-                    <Text className="mt-3 text-base font-semibold text-gray-700">
-                      Per-Class Overlays
-                    </Text>
-                    {classMasks.map((m, idx) => (
-                      <View key={idx} className="items-center mt-2">
-                        <Text className="font-medium text-secondary">{m.class}</Text>
-                        <Image source={{ uri: m.uri }} className="w-48 h-48 rounded-xl mt-1" />
-                      </View>
-                    ))}
-                  </>
-                )}
+
               </View>
             )}
 
