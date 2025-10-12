@@ -125,6 +125,7 @@ const predictImage = async (uri) => {
     setHealthTips("");
     setOverlayUri(null);
     setClassMasks([]);
+    setDetections([]);
   };
 
   useEffect(() => {
@@ -239,7 +240,7 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
         </TouchableOpacity>
         <View className="flex-row justify-center items-center absolute w-full h-full">
           <Image source={icons.logoOnly} className="w-10 h-10" resizeMode="contain" />
-          <Text className="text-secondary-100 font-psemibold text-md ml-1 mt-1">Scanner</Text>
+          <Text className="text-secondary-100 font-psemibold text-md ml-1 mt-1">Oral Scanner</Text>
         </View>
       </View>
 
@@ -248,7 +249,17 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
         {isCameraActive ? (
           // 📸 Camera View
           <View className="w-[90%] flex-1 rounded-xl items-center justify-evenly">
-            <View className="items-center justify-center">
+            <View className="w-full items-center justify-center">
+
+            <View className="w-full h-10 justify-center items-end mb-1">
+              <TouchableOpacity 
+                onPress={() => setIsCameraActive(false)}
+                className="border py-1 px-2 rounded-full items-center justify-center"
+                >
+                <Text className="text-md font-pmedium text-gray-500">Cancel</Text>
+              </TouchableOpacity>
+            </View>
+
               <View className="">
                 <CameraView
                   className="w-80 h-80 rounded-md"
@@ -339,32 +350,32 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
                         <View className="flex items-start justify-center">
 
                           <View className="flex-row items-center justify-center mb-1">
-                            <View className="h-1.5 w-3 bg-[#0000ff] mr-1 rounded-full" />
+                            <View className="h-1.5 w-3 bg-[#FF0000] mr-1 rounded-full" />
                             <Text className="text-xs font-pregular">Calculus</Text>
                           </View>
 
                           <View className="flex-row items-center justify-center mb-1">
-                            <View className="h-1.5 w-3 bg-[#00ff00] mr-1 rounded-full" />
+                            <View className="h-1.5 w-3 bg-[#00FF00] mr-1 rounded-full" />
                             <Text className="text-xs font-pregular">Caries</Text>
                           </View>
 
                           <View className="flex-row items-center justify-center mb-1">
-                            <View className="h-1.5 w-3 bg-[#ff0000] mr-1 rounded-full" />
+                            <View className="h-1.5 w-3 bg-[#0000FF] mr-1 rounded-full" />
                             <Text className="text-xs font-pregular">Gingivitis</Text>
                           </View>
 
                           <View className="flex-row items-center justify-center mb-1">
-                            <View className="h-1.5 w-3 bg-[#ffff00] mr-1 rounded-full" />
+                            <View className="h-1.5 w-3 bg-[#FFFF00] mr-1 rounded-full" />
                             <Text className="text-xs font-pregular">Hypodontia</Text>
                           </View>
 
-                                              <View className="flex-row items-center justify-center mb-1">
-                            <View className="h-1.5 w-3 bg-[#ff00ff] mr-1 rounded-full" />
+                          <View className="flex-row items-center justify-center mb-1">
+                            <View className="h-1.5 w-3 bg-[#FF00FF] mr-1 rounded-full" />
                             <Text className="text-xs font-pregular">Tooth-Discoloration</Text>
                           </View>
 
                           <View className="flex-row items-center justify-center mb-1">
-                            <View className="h-1.5 w-3 bg-[#00ffff] mr-1 rounded-full" />
+                            <View className="h-1.5 w-3 bg-[#00FFFF] mr-1 rounded-full" />
                             <Text className="text-xs font-pregular">Mouth Ulcer</Text>
                           </View>
                           
@@ -429,7 +440,7 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
   <View className="bg-gray-100/40 rounded-xl p-4 w-full mt-4">
     {detections.map((d, idx) => (
       <View key={idx} className="mb-4">
-        <Text className="text-lg font-semibold text-secondary capitalize">Disease Name: {d.class}</Text>
+        <Text className="text-lg font-semibold text-secondary-100 capitalize">Disease Name: {d.class}</Text>
 
                 {/* 🔹 Confidence Level */}
         <Text className="text-md font-pmedium text-gray-700 mt-1 mb-1">
@@ -468,16 +479,16 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
                 <View className="flex-row p-2 gap-2 py-7">
                   <TouchableOpacity
                     onPress={CaptureUploadNew}
-                    className="bg-white border-[2px] border-secondary-100 px-3 py-2 rounded-full flex-row items-center justify-center"
+                    className="bg-white border-[2px] border-secondary-300 px-3 py-2 rounded-full flex-row items-center justify-center"
                   >
                     <Image source={icons.camera} className="w-7 h-7" resizeMode="contain" />
-                    <Text className="text-secondary-100 font-psemibold ml-2 text-xs">New</Text>
+                    <Text className="text-secondary-300 font-psemibold ml-2 text-xs">New</Text>
                   </TouchableOpacity>
 
                     <TouchableOpacity
                       onPress={() => generatePDF(imageUri, overlayUri, detections)}
 
-                      className="bg-white border-[2px] border-secondary-100 px-3 py-2 rounded-full flex-row items-center justify-center"
+                      className="bg-white border-[2px] border-secondary-300 px-3 py-2 rounded-full flex-row items-center justify-center"
                     >
                       <Image source={icons.download} className="w-7 h-7" resizeMode="contain" />
                       <Text className="text-secondary-100 font-psemibold ml-2 text-xs">Download</Text>
@@ -489,7 +500,7 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
           </ScrollView>
         )}
       </View>
-      <StatusBar backgroundColor="#36A2A4" style="dark" />
+      <StatusBar backgroundColor="#006eff" style="dark" />
     </SafeAreaView>
   );
 };

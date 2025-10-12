@@ -62,7 +62,7 @@ const main = () => {
         </View>
       </View>
 
-      <StatusBar backgroundColor='#36A2A4' style='light' />
+      <StatusBar backgroundColor='#006eff' style='light' />
     </SafeAreaView>
   )
 }
