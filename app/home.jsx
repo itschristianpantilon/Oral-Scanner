@@ -76,7 +76,7 @@ const predictImage = async (uri) => {
   });
 
   try {
-    const response = await fetch("http://192.168.18.5:5000/predict", {
+    const response = await fetch("https://crstiannn-dental-api.hf.space/predict", {
       method: "POST",
       body: formData,
     });
@@ -408,6 +408,13 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
                     <Text className="text-white font-semibold text-base">Upload Image</Text>
                   </TouchableOpacity>
                 </View>
+                {/* Note */}
+                  <View className="mt-5 mx-2 bg-gray-200 px-3 py-2 rounded-lg">
+                    <Text className="text-center text-sm text-gray-500">
+                      ⚠️ Note: This oral scanner requires an active internet connection or mobile data 
+                      to perform AI-powered disease detection and diagnosis.
+                    </Text>
+                  </View>
               </View>
             )}
 
@@ -467,7 +474,7 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
                 <View className="flex-row p-2 gap-2 py-7">
                   <TouchableOpacity
                     onPress={CaptureUploadNew}
-                    className="bg-white border-[2px] border-secondary-300 px-3 py-2 rounded-full flex-row items-center justify-center"
+                    className="bg-white border-[1px] border-secondary-300 px-3 py-2 rounded-full flex-row items-center justify-center"
                   >
                     <Image source={icons.camera} className="w-7 h-7" resizeMode="contain" />
                     <Text className="text-secondary-300 font-psemibold ml-2 text-xs">New</Text>
@@ -476,10 +483,10 @@ const generatePDF = async (imageUri, overlayUri, detections) => {
                     <TouchableOpacity
                       onPress={() => generatePDF(imageUri, overlayUri, detections)}
 
-                      className="bg-white border-[2px] border-secondary-300 px-3 py-2 rounded-full flex-row items-center justify-center"
+                      className="border-[1px] bg-secondary-100 border-white px-3 py-2 rounded-full flex-row items-center justify-center"
                     >
                       <Image source={icons.download} className="w-7 h-7" resizeMode="contain" />
-                      <Text className="text-secondary-100 font-psemibold ml-2 text-xs">Download</Text>
+                      <Text className="text-white font-psemibold ml-2 text-xs">Download</Text>
                     </TouchableOpacity>
 
 
